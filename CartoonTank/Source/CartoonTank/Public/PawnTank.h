@@ -27,13 +27,15 @@ private:
 	void CalculateMoveInput(float Value);
 	void CalculateRotationInput(float Value);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float MoveSpeed = 100.0f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Movement", meta = (AllowPrivateAccess = "true"))
 	float RotateSpeed = 100.0f;
+
+	APlayerController* PlayerControllerRef;
 
 	void Move();
 	void Rotate();
-
-
 
 public:
 	APawnTank();
@@ -45,5 +47,7 @@ public:
 protected:
 
 	virtual void BeginPlay() override;
+
+	virtual void HandleDestruction() override;
 
 };
