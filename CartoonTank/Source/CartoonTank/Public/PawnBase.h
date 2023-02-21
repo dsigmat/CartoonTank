@@ -30,11 +30,11 @@ private:
 public:
 	APawnBase();	
 
+	void PawnDestroyed();
+	virtual void HandleDestruction();
+
 protected:
 	void RotationTurretFunction(FVector LookAtTarget);
 
 	void Fire();
-
-	virtual void HandleDestruction();
-
 };
