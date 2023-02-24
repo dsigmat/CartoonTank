@@ -7,7 +7,7 @@
 
 UHealthComponent::UHealthComponent()
 {
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 }
 
@@ -16,14 +16,26 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = DefaultHealth;
+
 	GameModeRef = Cast<ATankGameModeBase>(UGameplayStatics::GetGameMode(GetWorld()));
-	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+
+	Owner = GetOwner();
+
+	if (Owner)
+	{
+		Owner->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Health component has no reference to the Owner"));
+	}
+	
 	
 }
 
 void UHealthComponent::TakeDamage(AActor* DamageActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage == 0 || Health <= 0)
+	if (Damage == 0 || Health == 0)
 	{
 		return;
 	}

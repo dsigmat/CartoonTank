@@ -21,6 +21,8 @@ private:
 
 	ATankGameModeBase* GameModeRef;
 
+	AActor* Owner;
+
 public:	
 
 	UHealthComponent();

@@ -25,7 +25,15 @@ void APawnTank::BeginPlay()
 void APawnTank::HandleDestruction()
 {
 	Super::HandleDestruction();
-	Destroy();
+	//Destroy();
+
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+}
+
+bool APawnTank::GetIsPlayerAlive()
+{
+	return bIsplayerAlive;
 }
 
 void APawnTank::Tick(float DeltaTime)

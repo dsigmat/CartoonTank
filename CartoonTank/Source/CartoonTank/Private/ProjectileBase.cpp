@@ -5,6 +5,7 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystemComponent.h"
 
 
 
@@ -19,6 +20,10 @@ AProjectileBase::AProjectileBase()
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>("Projectile Movement");
 	ProjectileMovement->InitialSpeed = MovementSpeed;
 	ProjectileMovement->MaxSpeed = MovementSpeed;
+
+	ParticleTrail = CreateDefaultSubobject<UParticleSystemComponent>("Particle Trail");
+	ParticleTrail->SetupAttachment(RootComponent);
+
 	InitialLifeSpan = 3.0f;
 }
 
@@ -40,6 +45,7 @@ void AProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UP
 	if (OtherActor && OtherComp && OtherComp->GetOwner() != MyOwner)
 	{
 		UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-	}
-	Destroy();
+		UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation());
+		Destroy();
+	}	
 }

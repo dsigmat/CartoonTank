@@ -9,6 +9,7 @@
 
 class APawnTurret;
 class APawnTank;
+class APlayerControllerBases;
 
 UCLASS()
 class CARTOONTANK_API ATankGameModeBase : public AGameModeBase
@@ -26,6 +27,8 @@ private:
 	void HandleGameStart();
 
 	void HandleGameOver(bool PlayerWon);
+
+	APlayerControllerBases* PlayerControllerRef;
 
 public:
 

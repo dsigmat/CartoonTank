@@ -4,6 +4,8 @@
 #include "PawnBase.h"
 #include "Components/CapsuleComponent.h"
 #include "ProjectileBase.h"
+#include "HealthComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 
 APawnBase::APawnBase()
@@ -21,6 +23,8 @@ APawnBase::APawnBase()
 
 	ProjectileSpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
 	ProjectileSpawnPoint->SetupAttachment(TurretMesh);
+
+	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 }
 
 void APawnBase::RotationTurretFunction(FVector LookAtTarget)
@@ -52,5 +56,5 @@ void APawnBase::PawnDestroyed()
 
 void APawnBase::HandleDestruction()
 {
-
+	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
 }
